@@ -7,6 +7,7 @@ export class TennisGame2 implements TennisGame {
 
   P1res: string = '';
   P2res: string = '';
+  hash:object = {'0':'Love','1':'Fifteen','2':'Thirty','3':'Forty'}
 
   private player1Name: string;
   private player2Name: string;
@@ -15,67 +16,27 @@ export class TennisGame2 implements TennisGame {
     this.player1Name = player1Name;
     this.player2Name = player2Name;
   }
-
+  
   getScore(): string {
     let score: string = '';
     if (this.P1point === this.P2point && this.P1point < 4) {
-      if (this.P1point === 0)
-        score = 'Love';
-      if (this.P1point === 1)
-        score = 'Fifteen';
-      if (this.P1point === 2)
-        score = 'Thirty';
-      score += '-All';
+      score = this.hash[this.P1point] + '-All'
     }
     if (this.P1point === this.P2point && this.P1point >= 3)
       score = 'Deuce';
 
     if (this.P1point > 0 && this.P2point === 0) {
-      if (this.P1point === 1)
-        this.P1res = 'Fifteen';
-      if (this.P1point === 2)
-        this.P1res = 'Thirty';
-      if (this.P1point === 3)
-        this.P1res = 'Forty';
-
-      this.P2res = 'Love';
-      score = this.P1res + '-' + this.P2res;
+      score = this.getScore1(this.P1point,'Love')
     }
     if (this.P2point > 0 && this.P1point === 0) {
-      if (this.P2point === 1)
-        this.P2res = 'Fifteen';
-      if (this.P2point === 2)
-        this.P2res = 'Thirty';
-      if (this.P2point === 3)
-        this.P2res = 'Forty';
-
-      this.P1res = 'Love';
-      score = this.P1res + '-' + this.P2res;
+      score = this.getScore1('Love',this.P2point)
     }
 
-    if (this.P1point > this.P2point && this.P1point < 4) {
-      if (this.P1point === 2)
-        this.P1res = 'Thirty';
-      if (this.P1point === 3)
-        this.P1res = 'Forty';
-      if (this.P2point === 1)
-        this.P2res = 'Fifteen';
-      if (this.P2point === 2)
-        this.P2res = 'Thirty';
+    if ((this.P1point > this.P2point && this.P1point < 4 ) || (this.P2point > this.P1point && this.P2point < 4)) {
+      this.P1res = this.hash[this.P1point];
+      this.P2res = this.hash[this.P2point];
       score = this.P1res + '-' + this.P2res;
     }
-    if (this.P2point > this.P1point && this.P2point < 4) {
-      if (this.P2point === 2)
-        this.P2res = 'Thirty';
-      if (this.P2point === 3)
-        this.P2res = 'Forty';
-      if (this.P1point === 1)
-        this.P1res = 'Fifteen';
-      if (this.P1point === 2)
-        this.P1res = 'Thirty';
-      score = this.P1res + '-' + this.P2res;
-    }
-
     if (this.P1point > this.P2point && this.P2point >= 3) {
       score = 'Advantage player1';
     }
@@ -91,6 +52,16 @@ export class TennisGame2 implements TennisGame {
       score = 'Win for player2';
     }
     return score;
+  }
+  getScore1(s1:any,s2:any) {
+    if(typeof s1 == 'string') {
+      this.P1res = this.hash[s2];
+      this.P2res = s1
+    } else {
+      this.P2res = this.hash[s1];
+      this.P1res = s2
+    } 
+    return this.P1res + '-' + this.P2res;
   }
 
   SetP1Score(score: number): void {

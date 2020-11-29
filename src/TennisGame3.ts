@@ -14,18 +14,19 @@ export class TennisGame3 implements TennisGame {
 
   getScore(): string {
     let s: string;
-    if (this.p1 < 4 && this.p2 < 4 && !(this.p1 + this.p2 === 6)) {
-      const p: string[] = ['Love', 'Fifteen', 'Thirty', 'Forty'];
-      s = p[this.p1];
-      return (this.p1 === this.p2) ? s + '-All' : s + '-' + p[this.p2];
-    } else {
-      if (this.p1 === this.p2)
-        return 'Deuce';
-      s = this.p1 > this.p2 ? this.p1N : this.p2N;
-      return (((this.p1 - this.p2) * (this.p1 - this.p2)) === 1) ? 'Advantage ' + s : 'Win for ' + s;
-    }
+    if (this.p1 < 4 && this.p2 < 4 && !(this.p1 + this.p2 === 6)) return this.getSubScore1(this.p1,this.p2);
+    if (this.p1 === this.p2) return 'Deuce';
+    return this.getSubScore2(this.p1,this.p2)
   }
-
+  getSubScore1(score1: number,score2: number) {
+    const p: string[] = ['Love', 'Fifteen', 'Thirty', 'Forty'];
+    let s = p[score1];
+    return (score1 === score2) ? s + '-All' : s + '-' + p[score2];
+  }
+  getSubScore2(score1: number,score2: number) {
+    let s =  score1 > score2 ? this.p1N : this.p2N;
+    return (((score1 - score2) * (score1 - score2)) === 1) ? 'Advantage ' + s : 'Win for ' + s;
+  }
   wonPoint(playerName: string): void {
     if (playerName === 'player1')
       this.p1 += 1;

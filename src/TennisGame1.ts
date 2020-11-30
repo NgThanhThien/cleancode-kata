@@ -28,7 +28,7 @@ export class TennisGame1 implements TennisGame {
     return this.getScoreThree(this.m_score1,this.m_score2)
   }
   getScoreOne(score:number) {
-    const hash= {'0': 'Love-All', '1': 'Fifteen-All','2': 'Thirty-All'}
+    const hash:object= {'0': 'Love-All', '1': 'Fifteen-All','2': 'Thirty-All'}
     if (hash[score]) return hash[score];
     return 'Deuce'; 
   }
